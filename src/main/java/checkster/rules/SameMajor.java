@@ -13,15 +13,15 @@ public class SameMajor implements CompatibilityRules {
         Integer sm = serviceVersion.getMajor();
 
         if (cm != sm) {
-            return CheckResult
-                    .failure(new Reason(
-                            String.format(
-                                    "El número mayor de versión del servicio (\"%d\") no coincide con el esperado por el cliente (\"%d\")",
-                                    sm, cm)));
+            Reason reason = new Reason(
+                    String.format(
+                            "El número mayor de versión del servicio (\"%d\") no coincide con el esperado por el cliente (\"%d\")",
+                            sm, cm));
+            return CheckResult.failure(reason, serviceVersion);
         }
 
         return CheckResult.success(new Reason(
-                "El número mayor de versión del servicio coincide con el esperado por el cliente"));
+                "El número mayor de versión del servicio coincide con el esperado por el cliente"), serviceVersion);
 
     }
 

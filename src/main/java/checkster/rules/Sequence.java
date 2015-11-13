@@ -23,7 +23,7 @@ public class Sequence implements CompatibilityRules {
                 return result;
             }
         }
-        return CheckResult.success(new Reason(successReasonMessage));
+        return CheckResult.success(new Reason(successReasonMessage), serviceVersion);
     }
 
 }

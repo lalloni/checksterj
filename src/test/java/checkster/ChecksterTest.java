@@ -2,7 +2,8 @@ package checkster;
 
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -72,6 +73,18 @@ public class ChecksterTest {
     }
 
     @Test
+    public void testNoMeta() throws Exception {
+        Server s = startNoMetaNoMinorServer(SC_OK, "bla", 2);
+        try {
+            Check check = new Check(new Version("bla", 2, 0, 0, "bla1"), url(s));
+            CheckResult result = check.getResult();
+            assertTrue(result.isSuccess());
+        } finally {
+            s.stop();
+        }
+    }
+
+    @Test
     public void testFailConnect() throws Exception {
         Check check = new Check(new Version("ble", 3, 1, 1, null), new URL("http://lalomadelalora.com.pirulo"));
         CheckResult result = check.getResult();
@@ -93,7 +106,9 @@ public class ChecksterTest {
     }
 
     private Server startServer(final int sc, final String service, final int major) throws Exception {
-        Server s = new Server(7707);
+        Server s = new Server();
+        ServerConnector connector = new ServerConnector(s);
+        s.addConnector(connector);
         s.setHandler(new AbstractHandler() {
             public void handle(String target, Request baseRequest, HttpServletRequest request,
                     HttpServletResponse response) throws IOException, ServletException {
@@ -107,4 +122,22 @@ public class ChecksterTest {
         s.start();
         return s;
     }
+
+    private Server startNoMetaNoMinorServer(final int sc, final String service, final int major) throws Exception {
+        Server s = new Server();
+        ServerConnector connector = new ServerConnector(s);
+        s.addConnector(connector);
+        s.setHandler(new AbstractHandler() {
+            public void handle(String target, Request baseRequest, HttpServletRequest request,
+                    HttpServletResponse response) throws IOException, ServletException {
+                response.setStatus(sc);
+                response.getOutputStream().println(
+                        "{\"service\":\"" + service + "\",\"major\":" + major + ",\"patch\":1}");
+                response.getOutputStream().close();
+            }
+        });
+        s.start();
+        return s;
+    }
+
 }
