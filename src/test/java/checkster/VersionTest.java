@@ -74,6 +74,10 @@ public class VersionTest {
         assertEquals(new Version("a", 1, 1, 1, null, null), Version.fromServiceVersionString("a-1.1.1"));
         assertEquals(new Version(null, 1, 1, 1, null, null), Version.fromServiceVersionString("1.1.1"));
         assertEquals(new Version(null, 1, 0, 10, null, null), Version.fromServiceVersionString("1.0.10"));
+        assertEquals(new Version("algun-servicio", 1, 1, 1, "pre.1.2.3", "abcd.34.a.3"), Version.fromServiceVersionString("algun-servicio-1.1.1-pre.1.2.3+abcd.34.a.3"));
+        assertEquals(new Version("algun-ser-vicio", 1, 1, 1, "pre.1.2.3", "abcd.34.a.3"), Version.fromServiceVersionString("algun-ser-vicio-1.1.1-pre.1.2.3+abcd.34.a.3"));
+        assertEquals(new Version("algun.ser.vicio", 1, 1, 1, "alpha1", "bcd4453a"), Version.fromServiceVersionString("algun.ser.vicio-1.1.1-alpha1+bcd4453a"));
+        assertEquals(new Version(null, 1, 1, 1, "alpha1", "bcd4453a"), Version.fromServiceVersionString("1.1.1-alpha1+bcd4453a"));
     }
 
 }

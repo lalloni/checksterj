@@ -9,47 +9,51 @@ Uso básico
 
 ```java
 // Preparar versión del cliente
-Version clientVersion = new Version("nombre-servicio", 3, 0, 1, "build1");
+Version clientVersion = new Version("nombre-servicio", 3, 0, 1);
+// o
+Version clientVersion = Version.fromServiceVersionString("nombre-servicio-3.0.1");
 
-// Preparar URL de un "servicio de versión"
-URL serviceURL = new URL("http://ws.example.com/version");
+
+// URL de un "servicio de versión"
+URL serviceVersionURL = new URL("http://ws.example.com/version");
 
 // Inicializar un Check
-Check check = new Check(clientVersion, serviceURL);
+Check check = new Check(clientVersion, serviceVersionURL);
 
-// Obtener el resultado del Check
+// Ejecutar validación y obtener el resultado
 CheckResult result = check.getResult();
 // Este método puede llamarse de forma repetida sin lanzar múltiples solicitudes
-// HTTP ya que Check conserva el último resultado obtenido.
-// Si se desea forzar una nueva validación se puede utilizar el método check.run()
+// HTTP ya que se conservará el resultado obtenido.
+// Si se desea forzar una nueva validación se puede utilizar el método
+// check.run().
 
-// Obtener el booleano que indica si el servicio es usable y compatible o no
+// Obtener el booleano que indica si el servicio es usable y compatible (o no)
 Boolean ok = result.isSuccess();
 
 if (!ok) {
-  // Hacer algo para informar que el servicio no está usable
+  // Hacer algo para informar que el servicio no es compatible
 }
 ```
 
 Uso con fallo implícito
 -----------------------
 
-Si se desea usar la librería de manera tal que la misma en lugar de devolvernos
-un resultado a analizar simplemente lance una excepción para abortar alguna
-operación puede utilizarse el método:
+Si se desea usar la librería de manera tal que lance una excepción en
+lugar de devolver un resultado simplemente  puede utilizarse el
+siguiente método:
 
 ```java
 // Lanza una instancia de CheckFailure (unchecked) en caso de no validarse el
 // servicio. La excepción expone el resultado con getCheckResult().
-check.ensureSuccesful()
+check.ensureSuccesful();
 ```
 
 Información de diagnóstico
 --------------------------
 
 Cuando se decide que el servicio es inválido, la librería nos devuelve
-información de diagnóstica que puede ser utilizada para informar del problema
-de manera que se facilite su corrección:
+información de diagnóstico en `CheckResult` que puede ser utilizada para
+informar del problema de manera que se facilite su corrección:
 
 ```java
 // Obtener la razón de la decisión
@@ -108,7 +112,8 @@ encabezado "Accept: application/json" y devolver una respuesta en JSON (con el
 correspondiente encabezado `Content-Type`, posiblemente especificando el charset
 que será tenido en cuenta por la librería al procesar dicho contenido)
 conteniendo un objeto con los campos "service" de tipo string; "major", "minor",
-y "patch" que deben ser enteros; y "meta" que debe ser string.
+y "patch" que deben ser enteros; y los campos (opcionales) "prerelease" y
+"build" que deben ser de tipo string (o no estar).
 
 Por ejemplo, el servicio podría responder con:
 
@@ -118,8 +123,7 @@ Por ejemplo, el servicio podría responder con:
   "major": 2,
   "minor": 1,
   "patch": 3,
-  "meta": "build32-solaris11"
+  "prerelease": "alpha1",
+  "build": "build32"
 }
 ```
-
-Esta librería considera todos los campos opcionales.
