@@ -67,44 +67,60 @@ public class Checker {
                 }
                 JSONObject json = (JSONObject) o;
 
+                String service = null;
                 o = json.get("service");
-                if (!(o instanceof String)) {
-                    return CheckResult.failure(new Reason(
-                            "La respuesta del servicio fue incorrecta (\"service\" no es una cadena de caracteres)"));
+                if (o != null) {
+                    if (!(o instanceof String)) {
+                        return CheckResult
+                                .failure(new Reason(
+                                        "La respuesta del servicio fue incorrecta (\"service\" no es una cadena de caracteres)"));
+                    }
+                    service = (String) o;
                 }
-                String service = (String) o;
 
+                Integer major = null;
                 o = json.get("major");
-                if (!(o instanceof Long)) {
-                    return CheckResult.failure(new Reason(
-                            "La respuesta del servicio fue incorrecta (\"major\" no es un número)"));
+                if (o != null) {
+                    if (!(o instanceof Long)) {
+                        return CheckResult.failure(new Reason(
+                                "La respuesta del servicio fue incorrecta (\"major\" no es un número)"));
+                    }
+                    major = ((Long) o).intValue();
                 }
-                Integer major = ((Long) o).intValue();
 
+                Integer minor = null;
                 o = json.get("minor");
-                if (!(o instanceof Long)) {
-                    return CheckResult.failure(new Reason(
-                            "La respuesta del servicio fue incorrecta (\"minor\" no es un número)"));
+                if (o != null) {
+                    if (!(o instanceof Long)) {
+                        return CheckResult.failure(new Reason(
+                                "La respuesta del servicio fue incorrecta (\"minor\" no es un número)"));
+                    }
+                    minor = ((Long) o).intValue();
                 }
-                Integer minor = ((Long) o).intValue();
 
+                Integer patch = null;
                 o = json.get("patch");
-                if (!(o instanceof Long)) {
-                    return CheckResult.failure(new Reason(
-                            "La respuesta del servicio fue incorrecta (\"patch\" no es un número)"));
+                if (o != null) {
+                    if (!(o instanceof Long)) {
+                        return CheckResult.failure(new Reason(
+                                "La respuesta del servicio fue incorrecta (\"patch\" no es un número)"));
+                    }
+                    patch = ((Long) o).intValue();
                 }
-                Integer patch = ((Long) o).intValue();
 
+                String meta = null;
                 o = json.get("meta");
-                if (!(o instanceof String)) {
-                    return CheckResult.failure(new Reason(
-                            "La respuesta del servicio fue incorrecta (\"meta\" no es una cadena de caracteres)"));
+                if (o != null) {
+                    if (!(o instanceof String)) {
+                        return CheckResult.failure(new Reason(
+                                "La respuesta del servicio fue incorrecta (\"meta\" no es una cadena de caracteres)"));
+                    }
+                    meta = (String) o;
                 }
-                String meta = (String) o;
 
-                Version Version = new Version(service, major, minor, patch, meta);
+                Version version = new Version(service, major, minor, patch, meta);
 
-                return rules.isCompatibleService(clientVersion, Version);
+                return rules.isCompatibleService(clientVersion, version);
 
             } finally {
                 if (is != null)

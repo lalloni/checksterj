@@ -4,15 +4,15 @@ public class Version {
 
     private String service;
 
-    private int major;
+    private Integer major;
 
-    private int minor;
+    private Integer minor;
 
-    private int patch;
+    private Integer patch;
 
     private String meta;
 
-    public Version(String service, int major, int minor, int patch, String meta) {
+    public Version(String service, Integer major, Integer minor, Integer patch, String meta) {
         super();
         this.service = service;
         this.major = major;
@@ -25,15 +25,15 @@ public class Version {
         return service;
     }
 
-    public int getMajor() {
+    public Integer getMajor() {
         return major;
     }
 
-    public int getMinor() {
+    public Integer getMinor() {
         return minor;
     }
 
-    public int getPatch() {
+    public Integer getPatch() {
         return patch;
     }
 

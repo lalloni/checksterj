@@ -11,12 +11,14 @@ public class SameService implements CompatibilityRules {
 
         String cs = clientVersion.getService();
         String ss = serviceVersion.getService();
-        if (!cs.equalsIgnoreCase(ss)) {
-            return CheckResult.failure(new Reason(String.format(
-                    "El identificador del servicio (\"%s\") no coincide con el esperado (\"%s\")", ss, cs)));
+
+        if (cs != null && !cs.equalsIgnoreCase(ss) || cs == null && ss != null) {
+            Reason reason = new Reason(String.format(
+                    "El identificador del servicio (\"%s\") no coincide con el esperado (\"%s\")", ss, cs));
+            return CheckResult.failure(reason, serviceVersion);
         }
 
-        return CheckResult.success(new Reason("El identificar del servicio coincide con el esperado"));
+        return CheckResult.success(new Reason("El identificar del servicio coincide con el esperado"), serviceVersion);
 
     }
 
