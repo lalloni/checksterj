@@ -25,7 +25,7 @@ public class ChecksterTest {
     public void testCheckResult() throws Exception {
         Server s = startServer(SC_OK, "bla", 3);
         try {
-            Check check = new Check(new Version("bla", 3, 1, 1, null), url(s));
+            Check check = new Check(new Version("bla", 3, 1, 1, null, null), url(s));
             CheckResult result = check.getResult();
             assertTrue(result.isSuccess());
         } finally {
@@ -37,7 +37,7 @@ public class ChecksterTest {
     public void testFailMajor() throws Exception {
         Server s = startServer(SC_OK, "bla", 2);
         try {
-            Check check = new Check(new Version("bla", 3, 1, 1, null), url(s));
+            Check check = new Check(new Version("bla", 3, 1, 1, null, null), url(s));
             CheckResult result = check.getResult();
             assertFalse(result.isSuccess());
             assertTrue(result.getReason().getMessage().contains("mayor"));
@@ -50,7 +50,7 @@ public class ChecksterTest {
     public void testFailService() throws Exception {
         Server s = startServer(SC_OK, "bla", 2);
         try {
-            Check check = new Check(new Version("ble", 3, 1, 1, null), url(s));
+            Check check = new Check(new Version("ble", 3, 1, 1, null, null), url(s));
             CheckResult result = check.getResult();
             assertFalse(result.isSuccess());
             assertTrue(result.getReason().getMessage().contains("identificador del servicio"));
@@ -63,7 +63,7 @@ public class ChecksterTest {
     public void testFailStatus() throws Exception {
         Server s = startServer(SC_BAD_REQUEST, "bla", 2);
         try {
-            Check check = new Check(new Version("ble", 3, 1, 1, null), url(s));
+            Check check = new Check(new Version("ble", 3, 1, 1, null, null), url(s));
             CheckResult result = check.getResult();
             assertFalse(result.isSuccess());
             assertTrue(result.getReason().getMessage().contains("HTTP"));
@@ -76,7 +76,7 @@ public class ChecksterTest {
     public void testNoMeta() throws Exception {
         Server s = startNoMetaNoMinorServer(SC_OK, "bla", 2);
         try {
-            Check check = new Check(new Version("bla", 2, 0, 0, "bla1"), url(s));
+            Check check = new Check(new Version("bla", 2, 0, 0, "bla1", null), url(s));
             CheckResult result = check.getResult();
             assertTrue(result.isSuccess());
         } finally {
@@ -86,7 +86,7 @@ public class ChecksterTest {
 
     @Test
     public void testFailConnect() throws Exception {
-        Check check = new Check(new Version("ble", 3, 1, 1, null), new URL("http://lalomadelalora.com.pirulo"));
+        Check check = new Check(new Version("ble", 3, 1, 1, null, null), new URL("http://lalomadelalora.com.pirulo"));
         CheckResult result = check.getResult();
         assertFalse(result.isSuccess());
         assertTrue(result.getReason().getMessage().contains("conectar"));
@@ -94,7 +94,8 @@ public class ChecksterTest {
 
     @Test(expected = CheckFailure.class)
     public void testFailThrows() throws Exception {
-        new Check(new Version("ble", 3, 1, 1, null), new URL("http://lalomadelalora.com.pirulo")).ensureSuccessful();
+        new Check(new Version("ble", 3, 1, 1, null, null), new URL("http://lalomadelalora.com.pirulo"))
+                .ensureSuccessful();
     }
 
     private URL url(Server s) throws MalformedURLException {
