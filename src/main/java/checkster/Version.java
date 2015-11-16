@@ -8,7 +8,7 @@ import org.json.simple.JSONObject;
 public class Version {
 
     private static final Pattern pattern = Pattern
-            .compile("^(?:(?<service>[^-]+)-)?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?:-(?<prerelease>[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?(?:\\+(?<build>[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$");
+            .compile("^(?:(?<service>[a-zA-Z0-9-_.]+)-)?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?:-(?<prerelease>[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?(?:\\+(?<build>[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$");
 
     private String service;
 
@@ -24,6 +24,10 @@ public class Version {
 
     public Version(int major, int minor, int patch) {
         this(null, major, minor, patch, null, null);
+    }
+
+    public Version(String service, int major, int minor, int patch) {
+        this(service, major, minor, patch, null, null);
     }
 
     public Version(String service, int major, int minor, int patch, String prerelease, String build) {
