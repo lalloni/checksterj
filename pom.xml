@@ -2,14 +2,14 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>afip.dearin</groupId>
   <artifactId>checksterj</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1-SNAPSHOT</version>
   <name>Checkster Java</name>
   <description>Librería Java para validación de disponibilidad y compatibilidad de versiones de servicios HTTP.</description>
   <scm>
     <connection>scm:git:git@git.afip.gob.ar:dearin/checksterj.git</connection>
     <developerConnection>scm:git:git@git.afip.gob.ar:dearin/checksterj.git</developerConnection>
     <url>https://git.afip.gob.ar/dearin/checksterj</url>
-    <tag>checksterj-1.0.0</tag>
+    <tag>HEAD</tag>
   </scm>
   <distributionManagement>
     <repository>
