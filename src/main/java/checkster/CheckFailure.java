@@ -7,7 +7,7 @@ public class CheckFailure extends RuntimeException {
     private CheckResult checkResult;
 
     public CheckFailure(CheckResult checkResult) {
-        super(checkResult.getReason().getMessage());
+        super(checkResult.getReason().getMessage(), checkResult.getReason().getCause());
         this.checkResult = checkResult;
     }
 
