@@ -1,10 +1,37 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>afip.dearin</groupId>
-  <artifactId>checkster</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <artifactId>checksterj</artifactId>
+  <version>1.0.1-SNAPSHOT</version>
   <name>Checkster Java</name>
   <description>Librería Java para validación de disponibilidad y compatibilidad de versiones de servicios HTTP.</description>
+  <scm>
+    <connection>scm:git:git@git.afip.gob.ar:dearin/checksterj.git</connection>
+    <developerConnection>scm:git:git@git.afip.gob.ar:dearin/checksterj.git</developerConnection>
+    <url>https://git.afip.gob.ar/dearin/checksterj</url>
+    <tag>HEAD</tag>
+  </scm>
+  <distributionManagement>
+    <repository>
+      <id>dit.artefactos</id>
+      <url>http://artifactsddit.afip.gob.ar/nexus/content/repositories/arquitectura</url>
+    </repository>
+    <snapshotRepository>
+      <id>dit.artefactos</id>
+      <url>http://artifactsddit.afip.gob.ar/nexus/content/repositories/arquitectura-snapshots</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+  </distributionManagement>
+  <repositories>
+    <repository>
+      <id>dit.artifacts-arquitectura</id>
+      <url>http://artifactsddit.afip.gob.ar/nexus/content/repositories/arquitectura</url>
+    </repository>
+    <repository>
+      <id>dit.artifacts-arquitectura-snapshots</id>
+      <url>http://artifactsddit.afip.gob.ar/nexus/content/repositories/arquitectura-snapshots</url>
+    </repository>
+  </repositories>
   <dependencies>
     <dependency>
       <!-- La librería de tratamiento de JSON con mayor compatibilidad hacia atrás que encontré! (JVM 1.2+) -->
@@ -25,4 +52,20 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.4.2</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.scm</groupId>
+            <artifactId>maven-scm-provider-gitexe</artifactId>
+            <version>1.8.1</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
 </project>
